@@ -38,7 +38,7 @@ aws sns subscribe \
 # Create first policy that will allow you to get objects from s3 and put in DynamoDB
 aws iam create-policy \ 
 --policy-name <first-policy-name> \ 
---policy-document file://<path-to-first-policy-document>
+--policy-document file://read-s3-update-dynamodb-policy.json
 
 # See created policy
 aws iam list-policies
@@ -46,7 +46,7 @@ aws iam list-policies
 # Create a role for your Lambda function
 aws iam create-role \ 
 --role-name <first-role-name> \ 
---assume-role-policy-document file://<path-to-first-role-document>
+--assume-role-policy-document file://read-s3-update-dynamodb-role.json
 
 # Attach the policy to your role
 aws iam attach-role-policy \ 
@@ -56,7 +56,7 @@ aws iam attach-role-policy \
 # Create second policy that will allow you to read from your dynamodb stream and publish notifications on sns topic
 aws iam create-policy \ 
 --policy-name <second-policy-name> \ 
---policy-document file://<path-to-second-policy-document>
+--policy-document file://read-dynamodb-publish-sns-policy.json
 
 # See created policy
 aws iam list-policies
@@ -64,7 +64,7 @@ aws iam list-policies
 # Create a role for your Lambda function
 aws iam create-role \ 
 --role-name <second-role-name> \  
---assume-role-policy-document file://<path-to-second-role-document>
+--assume-role-policy-document file://read-dynamodb-publish-sns-role.json
 
 # Attach the policy to your role
 aws iam attach-role-policy \ 
@@ -72,22 +72,22 @@ aws iam attach-role-policy \
 --policy-arn <second-policy-arn>
 
 # Create a zip file of your Lambda function
-zip <first-lambda-function>.zip <first-lambda-function>.py
+zip read-s3-update-dynamodb.zip read-s3-update-dynamodb.py
 
 # Create your lambda function
 aws lambda create-function \ 
- --function-name <first-function-name> \ 
+ --function-name read-s3-update-dynamodb \ 
  --runtime python3.11 \ 
  --role <role-arn> \ 
- --zip-file fileb://<first-lambda-function>.zip \ 
- --handler <first-function-name>.lambda_handler
+ --zip-file fileb://read-s3-update-dynamodb.zip \ 
+ --handler read-s3-update-dynamodb.lambda_handler
 
 # Adding event notification to your S3 bucket was a challenge:
 # https://sagargiri.com/s3-event-notification-issue
 
 # Use this to add permission for S3 to invoke/trigger your lambda function
 aws lambda add-permission \ 
- --function-name <first-function-name> \ 
+ --function-name read-s3-update-dynamodb \ 
  --statement-id AllowToBeInvoked \ 
  --action "lambda:InvokeFunction" \ 
  --principal s3.amazonaws.com \ 
@@ -96,18 +96,18 @@ aws lambda add-permission \
 # Create s3 trigger
 aws s3api put-bucket-notification-configuration \ 
  --bucket <bucket-name> \ 
- --notification-configuration file://<notification-configuration.json>
+ --notification-configuration file://notification-configuration.json
 
 # Create a zip file of your 2nd Lambda function
-zip <second-lambda-function>.zip <second-lambda-function>.py
+zip read-dynamodb-publish-sns.zip read-dynamodb-publish-sns.py
 
 # Create your second Lambda function
 aws lambda create-function \ 
- --function-name <second-function-name> \ 
+ --function-name read-dynamodb-publish-sns \ 
  --runtime python3.11 \ 
  --role <dynamodb-arn> \ 
- --zip-file fileb://<second-lambda-function>.zip \ 
- --handler <second-function-name>.lambda_handler
+ --zip-file fileb://read-dynamodb-publish-sns.zip \ 
+ --handler read-dynamodb-publish-sns.lambda_handler
 
 # Create a DynamoDB Stream
 aws dynamodb update-table \ 
@@ -117,7 +117,7 @@ aws dynamodb update-table \
 # Create trigger from DynamoDB Stream that will invoke Lambda function
 aws lambda create-event-source-mapping \ 
  --event-source-arn <dynamodb-stream-arn> \ 
- --function-name <second-function-name> \ 
+ --function-name read-dynamodb-publish-sns \ 
  --starting-position LATEST
 
 # Finally copy .csv file to S3
