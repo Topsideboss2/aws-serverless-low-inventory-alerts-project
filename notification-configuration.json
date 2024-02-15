@@ -1,0 +1,19 @@
+{
+    "LambdaFunctionConfigurations": [
+      {
+        "Id": "InventoryUpload",
+        "LambdaFunctionArn": "<first-lambda-function-arn>",
+        "Events": ["s3:ObjectCreated:*"],
+        "Filter": {
+          "Key": {
+            "FilterRules": [
+              {
+                "Name": "suffix",
+                "Value": ".csv"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
