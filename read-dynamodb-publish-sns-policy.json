@@ -19,7 +19,7 @@
        "dynamodb:Scan",
        "dynamodb:Query"
       ],
-      "Resource": "arn:aws:dynamodb:us-east-1:381492312241:table/InventoryTable"
+      "Resource": "<dynamodb-table-arn>"
      },
      {
       "Effect": "Allow",
@@ -29,12 +29,12 @@
         "dynamodb:DescribeStream",
         "dynamodb:ListStreams"
       ],
-      "Resource": "arn:aws:dynamodb:us-east-1:381492312241:table/InventoryTable/stream/*"
+      "Resource": "<dynamodb-table-arn>/stream/*"
      },
      {
       "Effect": "Allow",
       "Action": "sns:Publish",
-      "Resource": "arn:aws:sns:us-east-1:381492312241:LowInventoryTopic"
+      "Resource": "<sns-topic-arn>"
      }
     ]
 }
