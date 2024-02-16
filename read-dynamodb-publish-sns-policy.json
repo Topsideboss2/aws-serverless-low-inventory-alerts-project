@@ -30,7 +30,7 @@
         "dynamodb:ListStreams"
       ],
       "Resource": "arn:aws:dynamodb:us-east-1:381492312241:table/InventoryTable/stream/*"
-    },
+     },
      {
       "Effect": "Allow",
       "Action": "sns:Publish",
