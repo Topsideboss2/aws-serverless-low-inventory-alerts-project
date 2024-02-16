@@ -14,7 +14,7 @@ def lambda_handler(event, context):
     # s3_key = 'inventory.csv'
 
     # Set the DynamoDB table name
-    dynamodb_table_name = 'InventoryTable'
+    dynamodb_table_name = 'inventory'
 
     # Create a DynamoDB client
     dynamodb = boto3.resource('dynamodb')

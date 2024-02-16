@@ -4,7 +4,7 @@ import os
 
 def lambda_handler(event, context):
     # Define DynamoDB and SNS clients
-    dynamo_table_name = 'InventoryTable'
+    dynamo_table_name = 'inventory'
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(dynamo_table_name)
     sns = boto3.client('sns')
@@ -27,8 +27,8 @@ def lambda_handler(event, context):
 
         # Publish notification to SNS
         sns.publish(
-            # TopicArn='arn:aws:sns:us-east-1:471285348599:LowInventoryTopic',
-            TopicArn = f'arn:aws:sns:{region}:{account_id}:LowInventoryTopic',
+            # TopicArn='arn:aws:sns:us-east-1:471285348599:LowInventory',
+            TopicArn = f'arn:aws:sns:{region}:{account_id}:LowInventory',
             Message=notification_message,
             Subject='Low Inventory Alert'
         )
