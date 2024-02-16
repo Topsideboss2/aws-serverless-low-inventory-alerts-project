@@ -125,3 +125,87 @@ aws s3 cp . s3://<s3-bucket-name>/ \
  --recursive \ 
  --exclude "*" \ 
  --include "*.csv"
+
+# List s3 buckets to see buckets associated with your account
+aws s3api list-buckets
+
+# List objects in your s3 bucket
+aws s3api list-objects \ 
+--bucket <bucket-name>
+
+# Delete objects in your s3 bucket
+aws s3api delete-object \ 
+--bucket <bucket-name> \ 
+--key inventory.csv
+
+# Delete your s3 bucket
+aws s3api delete-bucket \ 
+--bucket <bucket-name>
+
+# List sns topics
+aws sns list-topics
+
+# Delete sns topic
+aws sns delete-topic \ 
+--topic-arn <sns-topic-arn>
+
+# List dynamodb tables
+aws dynamodb list-tables
+
+# Delete dynamodb table
+aws dynamodb delete-table \ 
+--table-name <dynamodb-table-name>
+
+# List lambda functions
+aws lambda list-functions
+
+# Delete first lambda function
+aws lambda delete-function \ 
+--function-name read-s3-update-dynamodb
+
+# Delete the second lambda function
+aws lambda delete-function \ 
+--function-name read-dynamodb-publish-sns
+
+# List roles
+aws iam list-roles
+
+# List policies
+aws iam list-policies
+
+# List policies attached to a role
+aws iam list-role-policies \ 
+--role-name read-s3-update-dynamodb-role
+
+# Detach policy from role
+aws iam detach-role-policy \ 
+--role-name read-s3-update-dynamodb-role \ 
+--policy-arn <read-s3-update-dynamodb-policy-arn>
+
+# Delete role
+aws iam delete-role \ 
+--role-name read-s3-update-dynamodb-role
+
+# List policies attached to a role
+aws iam list-role-policies \ 
+--role-name read-dynamodb-publish-sns-role
+
+# Detach policy from role
+aws iam detach-role-policy \ 
+--role-name read-dynamodb-publish-sns-role \ 
+--policy-arn <read-dynamodb-publish-sns-policy-arn>
+
+# Delete role
+aws iam delete-role \ 
+--role-name read-dynamodb-publish-sns-role
+
+# List policies
+aws iam list-policies
+
+# Delete first policy
+aws iam delete-policy \ 
+--policy-arn <read-s3-update-dynamodb-policy-arn>
+
+# Delete second policy
+aws iam delete-policy \ 
+--policy-arn <read-dynamodb-publish-sns-policy-arn>
