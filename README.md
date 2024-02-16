@@ -13,6 +13,6 @@ In a bid to learn more about the AWS CLI, I implemented the project strictly thr
 
 I just want to appreciate AWS for having a simple and comprehensive documentation that one can follow through and learn.
 
-For those who would like to try out. I created a script that has all the commands I used. Just substitute the variables (i.e "<dynamodb-table-name>") with the respective names. 
+For those who would like to try out. I created a script that has all the commands I used. Just substitute the variables (i.e "dynamodb-table-name") with the respective names. 
 
 Blog post coming soon!
