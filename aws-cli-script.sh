@@ -1,7 +1,7 @@
 #/bin/bash
 
 # Create new bucket
-aws s3api create-bucket \ 
+aws s3 create-bucket \ 
 --bucket <bucket-name>
 
 # List s3 buckets to see new bucket
