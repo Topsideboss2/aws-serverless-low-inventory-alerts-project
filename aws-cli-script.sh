@@ -37,7 +37,7 @@ aws sns subscribe \
 
 # Create first policy that will allow you to get objects from s3 and put in DynamoDB
 aws iam create-policy \
---policy-name <first-policy-name> \
+--policy-name read-s3-update-dynamodb-policy \
 --policy-document file://read-s3-update-dynamodb-policy.json
 
 # See created policy
@@ -45,17 +45,17 @@ aws iam list-policies
 
 # Create a role for your Lambda function
 aws iam create-role \
---role-name <first-role-name> \
+--role-name read-s3-update-dynamodb-role \
 --assume-role-policy-document file://read-s3-update-dynamodb-role.json
 
 # Attach the policy to your role
 aws iam attach-role-policy \
---role-name <first-role-name> \
+--role-name read-s3-update-dynammodb-role \
 --policy-arn <first-policy-arn>
 
 # Create second policy that will allow you to read from your dynamodb stream and publish notifications on sns topic
 aws iam create-policy \
---policy-name <second-policy-name> \
+--policy-name read-dynamodb-publish-sns-policy \
 --policy-document file://read-dynamodb-publish-sns-policy.json
 
 # See created policy
@@ -63,12 +63,12 @@ aws iam list-policies
 
 # Create a role for your Lambda function
 aws iam create-role \
---role-name <second-role-name> \
+--role-name read-dynamodb-publish-sns-role \
 --assume-role-policy-document file://read-dynamodb-publish-sns-role.json
 
 # Attach the policy to your role
 aws iam attach-role-policy \
---role-name <second-role-name> \
+--role-name read-dynamodb-publish-sns-role \
 --policy-arn <second-policy-arn>
 
 # Create a zip file of your Lambda function
@@ -126,6 +126,8 @@ aws s3 cp . s3://<s3-bucket-name>/ \
  --exclude "*" \
  --include "*.csv"
 
+
+# DELETING ALL RESOURCES
 # List s3 buckets to see buckets associated with your account
 aws s3api list-buckets
 
